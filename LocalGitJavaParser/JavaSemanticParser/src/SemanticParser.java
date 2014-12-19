@@ -4,37 +4,63 @@ import java.util.Arrays;
 public class SemanticParser {
 
 	public static void main(String[] args) {
+
+		// System.out.println(semanticSearch("country artist"));
+		// System.out.println(semanticSearch("country artist 1990"));
+		// System.out.println(semanticSearch("dre tracks"));
+		// System.out.println(semanticSearch("reggae rap"));
+		// System.out.println(semanticSearch("pop tracks"));
+		// System.out.println(semanticSearch("pop albums"));
+		// System.out.println(semanticSearch("1990"));
+		// System.out.println(semanticSearch("1990 tracks"));
+		// System.out.println(semanticSearch("keit country artist"));
+		// System.out.println(semanticSearch("keit artist country"));
+		// System.out.println(semanticSearch("artist country keit"));
+		// System.out.println(semanticSearch("albums rap res"));
+		// System.out.println(semanticSearch("pop rock"));
+		// System.out.println(semanticSearch("black"));
+		// System.out.println(semanticSearch("black artist"));
+		// System.out.println(semanticSearch("album black"));
+		// System.out.println(semanticSearch("black track"));
+		// System.out.println(semanticSearch("1990"));
+		// System.out.println(semanticSearch("1990 2000"));
+		// System.out.println(semanticSearch("pop"));
+		// System.out.println(semanticSearch("pearl jam tracks"));
+		// System.out.println(semanticSearch("country artist 1990"));
+		// System.out.println(semanticSearch("\"paris hilton\""));
+
+		String query = "rock \"black track\" asd";
+
+		int firstIndex = 0;
+		int lastIndex = 0;
+		String exactSearch = "";
+		boolean error = false;
+
+		try {
+			firstIndex = query.indexOf("\"", 0);
+			lastIndex = query.indexOf("\"", firstIndex + 1);
+			exactSearch = query.substring(firstIndex + 1, lastIndex);
+		} catch (Exception e) {
+			// e.printStackTrace();
+			error = true;
+			exactSearch = "";
+		}
+
+		System.out.println("start= " + firstIndex + " | last= " + lastIndex);
+		System.out.println("exact= " + exactSearch);
+
+		if (!error) {
+			query = query.replaceFirst("\"" + exactSearch + "\"", "");
+		}
+
+		System.out.println("query= " + query);
 		
-		System.out.println(semanticSearch("country artist"));
-//		System.out.println(semanticSearch("country artist 1990"));
-		System.out.println(semanticSearch("dre tracks"));
-//		System.out.println(semanticSearch("reggae rap"));
-//		System.out.println(semanticSearch("pop tracks"));
-		System.out.println(semanticSearch("pop albums"));
-//		System.out.println(semanticSearch("1990"));
-//		System.out.println(semanticSearch("1990 tracks"));
-		System.out.println(semanticSearch("keit country artist"));
-		System.out.println(semanticSearch("keit artist country"));
-		System.out.println(semanticSearch("artist country keit"));
-		System.out.println(semanticSearch("albums rap res"));
-		System.out.println(semanticSearch("pop rock"));
-		System.out.println(semanticSearch("black"));
-		System.out.println(semanticSearch("black artist"));
-		System.out.println(semanticSearch("album black"));
-		System.out.println(semanticSearch("black track"));
-		System.out.println(semanticSearch("1990"));
-		System.out.println(semanticSearch("1990 2000"));
-		System.out.println(semanticSearch("pop"));
-		System.out.println(semanticSearch("pearl jam tracks"));
-		System.out.println(semanticSearch("country artist 1990"));
-		
-		
-//		System.out.println(semanticSearch("\"paris hilton\""));
 	}
 
 	private static String semanticSearch(String query) {
 
-		System.out.println("\n\n\n\n########semanticSearch(String " + query + ")");
+		System.out.println("\n\n\n\n########semanticSearch(String " + query
+				+ ")");
 
 		/**
 		 * TODO Implementar caso queiramos procurar sintáticamente:
@@ -140,11 +166,10 @@ public class SemanticParser {
 				if (!firstFilter) {
 					filter += " && ";
 				}
-				filter += " regex( ?decade, \"" + token
-						+ "\", \"i\" ) ";
+				filter += " regex( ?decade, \"" + token + "\", \"i\" ) ";
 				firstFilter = false;
 			}
-			
+
 			/**
 			 * Verify if its a value
 			 */
@@ -165,7 +190,7 @@ public class SemanticParser {
 		// sparql query
 		if (isGenre && active_class.equals("artist")) {
 			// do nothing for now!
-			
+
 		} else if (isGenre && active_class.equals("album")) {
 			where = " WHERE { ";
 			for (int i = 0; i < genre_index; i++) {
@@ -178,7 +203,7 @@ public class SemanticParser {
 			// "SELECT ?s1 ?value   WHERE {  ?s music:hasMainGenre ?genre0.  ?s rdf:type music:Artist. "
 			// + "?s music:producesAlbum ?s1.  ?s1 music:hasTitle ?value.   "
 			// + "FILTER ( regex( ?genre0, \"rock\", \"i\" )  )  }";
-		
+
 		} else if (isGenre && active_class.equals("track")) {
 			where = " WHERE { ";
 			for (int i = 0; i < genre_index; i++) {
@@ -193,7 +218,6 @@ public class SemanticParser {
 			// + "FILTER ( regex( ?genre0, \"rock\", \"i\" )  )  }";
 		}
 
-		
 		if (!nothing_filter.isEmpty()) {
 			if (active_class.equals("artist") || active_class.equals("album")
 					|| active_class.equals("track")) {
@@ -218,8 +242,8 @@ public class SemanticParser {
 						+ "\", \"i\" ) ";
 				firstFilter = false;
 			}
-		} 
-		
+		}
+
 		// nothing string is empty
 		else {
 			// no class associated and one or various genres associated
@@ -234,11 +258,11 @@ public class SemanticParser {
 				where += " ?s music:hasName ?value. ";
 				select += " ?value ";
 			}
-				
+
 		}
 
 		SPARQL_QUERY = select + where + filter + " ) " + " } ";
-		
+
 		return SPARQL_QUERY;
 
 		// searchQuery =
