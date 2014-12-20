@@ -29,31 +29,33 @@ public class SemanticParser {
 		// System.out.println(semanticSearch("country artist 1990"));
 		// System.out.println(semanticSearch("\"paris hilton\""));
 
-		String query = "rock \"black track\" asd";
-
-		int firstIndex = 0;
-		int lastIndex = 0;
-		String exactSearch = "";
-		boolean error = false;
-
-		try {
-			firstIndex = query.indexOf("\"", 0);
-			lastIndex = query.indexOf("\"", firstIndex + 1);
-			exactSearch = query.substring(firstIndex + 1, lastIndex);
-		} catch (Exception e) {
-			// e.printStackTrace();
-			error = true;
-			exactSearch = "";
-		}
-
-		System.out.println("start= " + firstIndex + " | last= " + lastIndex);
-		System.out.println("exact= " + exactSearch);
-
-		if (!error) {
-			query = query.replaceFirst("\"" + exactSearch + "\"", "");
-		}
-
-		System.out.println("query= " + query);
+//		String query = "rock \"black track\" asd";
+//
+//		int firstIndex = 0;
+//		int lastIndex = 0;
+//		String exactSearch = "";
+//		boolean error = false;
+//
+//		try {
+//			firstIndex = query.indexOf("\"", 0);
+//			lastIndex = query.indexOf("\"", firstIndex + 1);
+//			exactSearch = query.substring(firstIndex + 1, lastIndex);
+//		} catch (Exception e) {
+//			// e.printStackTrace();
+//			error = true;
+//			exactSearch = "";
+//		}
+//
+//		System.out.println("start= " + firstIndex + " | last= " + lastIndex);
+//		System.out.println("exact= " + exactSearch);
+//
+//		if (!error) {
+//			query = query.replaceFirst("\"" + exactSearch + "\"", "");
+//		}
+//
+//		System.out.println("query= " + query);
+		
+		
 		
 	}
 
